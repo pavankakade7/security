@@ -21,7 +21,7 @@ import static org.springframework.http.HttpStatus.CREATED;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(path = {"/user"} )
+@RequestMapping("/user" )
 public class UserController {
     private final UserService userService;
 

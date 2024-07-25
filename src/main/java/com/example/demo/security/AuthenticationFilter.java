@@ -3,6 +3,7 @@ package com.example.demo.security;
 import com.example.demo.domain.ApiAuthentication;
 import com.example.demo.dtorequest.LoginRequest;
 import com.example.demo.enumeration.LoginType;
+import com.example.demo.service.JwtService;
 import com.example.demo.service.UserService;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -21,13 +22,14 @@ import org.springframework.security.web.util.matcher.RequestMatcher;
 import java.io.IOException;
 
 import static com.example.demo.domain.ApiAuthentication.unauthenticated;
+import static com.example.demo.utils.RequestUtils.handleErrorResponse;
 import static org.springframework.http.HttpMethod.POST;
 
 @Slf4j
 public class AuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 
     private final UserService userService;
-    private  final  JwtService jwtService;
+    private  final JwtService jwtService;
 
     public AuthenticationFilter(AuthenticationManager authenticationManager, UserService userService, JwtService jwtService) {
         super(new AntPathRequestMatcher("/user/login", POST.name()), authenticationManager);
@@ -45,12 +47,14 @@ public class AuthenticationFilter extends AbstractAuthenticationProcessingFilter
             return getAuthenticationManager().authenticate(authentication);
 
         }catch (Exception exception){
+            logger.error(exception.getMessage());
+            handleErrorResponse(request,response,exception);
             return null;
         }
     }
 
     @Override
-    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
-        super.successfulAuthentication(request, response, chain, authResult);
+    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication) throws IOException, ServletException {
+        super.successfulAuthentication(request, response, chain, authentication);
     }
 }

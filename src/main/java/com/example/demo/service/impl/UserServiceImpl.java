@@ -2,6 +2,7 @@ package com.example.demo.service.impl;
 
 import com.example.demo.cache.CacheStore;
 import com.example.demo.domain.RequestContext;
+import com.example.demo.dto.User;
 import com.example.demo.entity.ConfirmationEntity;
 import com.example.demo.entity.CredentialEntity;
 import com.example.demo.entity.RoleEntity;
@@ -27,6 +28,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.Map;
+import java.util.Optional;
 
 import static com.example.demo.utils.UserUtils.createUserEntity;
 
@@ -110,6 +112,15 @@ public class UserServiceImpl  implements UserService {
         var role = getRoleName(Authority.USER.name());
         return createUserEntity(firstName,lastName,email,role);
     }
+
+    @Override
+    public UserEntity getUserByUserId(String userId) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getUserByUserId'");
+    }
+
+
+   
 
 
 
